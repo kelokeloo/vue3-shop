@@ -7,11 +7,18 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.2.16"
+    "axios": "^0.24.0",
+    "element-plus": "^1.2.0-beta.5",
+    "vue": "^3.2.16",
+    "vue-router": "4",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.3",
-    "scss": "^0.2.4",
+    "babel-plugin-component": "^1.1.1",
+    "sass": "^1.44.0",
+    "unplugin-auto-import": "^0.5.1",
+    "unplugin-vue-components": "^0.17.2",
     "vite": "^2.6.4"
   }
 }

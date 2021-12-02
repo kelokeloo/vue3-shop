@@ -1,0 +1,61 @@
+@font-face {
+  font-family: "iconfont"; /* Project id  */
+  src: url('iconfont.ttf?t=1638430231133') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-shiwutubiao-22:before {
+  content: "\e601";
+}
+
+.icon-shiwutubiao-41:before {
+  content: "\e602";
+}
+
+.icon-shiwutubiao-26:before {
+  content: "\e603";
+}
+
+.icon-shiwutubiao-18:before {
+  content: "\e604";
+}
+
+.icon-shiwutubiao-15:before {
+  content: "\e605";
+}
+
+.icon-shiwutubiao-21:before {
+  content: "\e606";
+}
+
+.icon-shiwutubiao-32:before {
+  content: "\e607";
+}
+
+.icon-shiwutubiao-35:before {
+  content: "\e608";
+}
+
+.icon-shiwutubiao-06:before {
+  content: "\e609";
+}
+
+.icon-shiwutubiao-19:before {
+  content: "\e60a";
+}
+
+.icon-shiwutubiao-03:before {
+  content: "\e60b";
+}
+
+.icon-shiwutubiao-27:before {
+  content: "\e60c";
+}
+
