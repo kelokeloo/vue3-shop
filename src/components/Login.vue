@@ -33,6 +33,7 @@
 import { ref, reactive, watch} from 'vue'
 import { ElMessage } from 'element-plus'
 import store from '../Vuex/vuex'
+import { useRouter } from 'vue-router'
   export default {
     setup(){
       const goodList = ['22','41','26','18','35','15','21','32','19','03','27']
@@ -51,13 +52,16 @@ import store from '../Vuex/vuex'
           {required: true,message: '用户名不能为空',trigger: 'blur'}
         ]
       })
+      // 表单区 ---END---
+
       const signUp = ()=>{
         ElMessage({
           message: '暂未开放该功能',
           type: 'warning'
         })
       }
-      // 登录验证
+      // 登录验证 --- start
+      const $router = useRouter()
       const login = ()=>{
         // console.log(formRef.value);
         formRef.value.validate(async (valid)=>{
@@ -77,7 +81,10 @@ import store from '../Vuex/vuex'
             }
             // 保存token
             window.sessionStorage.setItem('token', res.data.token)
+            
+            $router.push('/home')
 
+            
             ElMessage({
               message:'login',
               type: 'success'
@@ -85,12 +92,8 @@ import store from '../Vuex/vuex'
           }
         })
       }
-
-      // watch(loginForm, (newValue)=>{
-      //   console.log(newValue);
-      // })
-      // 表单区 ---END---
-
+      
+      
 
       return {
         goodList,

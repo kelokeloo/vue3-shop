@@ -1,14 +1,15 @@
 import {createStore} from 'vuex'
 import axios from 'axios'
 
+
 // 设置基准地址
 axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
 
-// 设置请求拦截器
+//设置请求拦截器 每次访问都添加token
 axios.interceptors.request.use((config)=>{
-  let token = window.localStorage.getItem('token')
+  let token = window.sessionStorage.getItem('token')
   if(token){
-    config.headers.token = token 
+    config.headers.Authorization = token 
   }
   return config
 })
@@ -18,7 +19,7 @@ axios.interceptors.request.use((config)=>{
 const store = createStore({
   state(){
     return {
-      $http: axios
+      $http: axios,
     }
   }
 })
