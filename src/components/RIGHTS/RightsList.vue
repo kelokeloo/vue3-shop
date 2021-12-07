@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <!-- 导航区 -->
     <el-breadcrumb>
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
@@ -19,10 +20,13 @@
         </template>
       </el-table-column>
     </el-table>
+
+
   </div>
 </template>
 
 <script>
+
 import { ElMessage } from 'element-plus'
 import {ref, reactive} from 'vue'
 import store from '../../Vuex/vuex'
