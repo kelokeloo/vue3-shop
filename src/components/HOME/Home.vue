@@ -97,8 +97,8 @@ header.header{
 
 main.body{
   >aside{
-    width: 200px;
-    min-width: 150px;
+    min-width: 200px;
+    max-width: 200px;
     overflow: hidden;
   }
   >article{

@@ -13,8 +13,8 @@
     <el-table :data="rolesListData.data" style="width: 100%" border>
       <!-- 扩展内容 -->
       <el-table-column type="expand">
-        <template #default="{row}">
-          <el-table :data="row.children" style="width: 100%" :show-header="false" :border="false">
+        <template #default="scope">
+          <el-table :data="scope.row.children" style="width: 100%" :show-header="false" :border="false">
             <!-- 第一列 -->
             <el-table-column width="200px">
               <template v-slot="{row}">
@@ -37,7 +37,9 @@
                   <el-table-column>
                     <template v-slot="{row}">
                       <!-- 第三列 -->
-                      <el-tag v-for="tag in row.children" :key="tag.id" closable type="warning" style="margin: 0.2rem">
+                      <el-tag v-for="tag in row.children" :key="tag.id" closable type="warning" style="margin: 0.2rem"
+                        @close="handleTagClose(tag.id, scope.row.id, row.children)"
+                      >
                         {{ tag.authName }}
                       </el-tag>
                     </template>
@@ -65,10 +67,10 @@
             </svg>
             <span>删除</span> 
           </el-button>
-          <el-button size="mini" type="warning">
+          <el-button size="mini" type="warning" @click="showAssignRightsDialog(row)">
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-icon-test1"></use>
-            </svg>
+            </svg> 
             <span>分配权限</span> 
           </el-button>
         </template>
@@ -138,7 +140,29 @@
         </span>
       </template>
     </el-dialog>
->>>>>>> rolesList
+
+    <!-- 分配权限对话框 -->
+    <el-dialog
+      v-model="assignRightsDialogVisible"
+      title="分配权限"
+      width="50%"
+      @closed="closeAssignDialog"
+    >
+      <el-cascader
+        v-model="RightsSelected"
+        :options="RightsData.options"
+        :props="cacasderTrigger"
+        @change="cacasderChange"
+      ></el-cascader>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="assignRightsDialogVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="assignSubmit"
+            >Confirm</el-button
+          >
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -266,6 +290,7 @@ import rules from '../../utilityData/rules.js'
       //#endregion
 
       // 删除角色
+      //#region 
       const deleteRoles = (id)=>{
         ElMessageBox.confirm(
           '请确认删除, 此操作不可逆',
@@ -309,7 +334,94 @@ import rules from '../../utilityData/rules.js'
           })
         })
       }
-      // 分配权限
+      //#endregion
+
+      // 分配权限 assign
+      //#region 
+
+      let assignRightsDialogVisible = ref(false)
+
+      // 权限数据
+      let RightsData = reactive({
+        options: []
+      })
+      let RightsSelected = ref([])
+      let roleId = 0
+
+      let cacasderTrigger = {
+        expandTrigger: 'hover',
+        multiple:'true',
+        value: 'id',
+        label: 'authName',
+        children: 'children'
+      }
+
+
+      const getAllRightsByTree = async ()=>{
+        const {data: res} = await store.state.$http.get('rights/tree')
+        // console.log(res);
+        if(res.meta.status !== 200){
+          ElMessage({
+            type:'error',
+            message: res.meta.msg
+          })
+          return false
+        }
+        RightsData.options = res.data
+        console.log(RightsData);
+      }
+
+      const showAssignRightsDialog = async (row)=>{
+        // console.log(row);
+        assignRightsDialogVisible.value = true
+        // 获取权限数据
+        getAllRightsByTree()
+        
+        // 提交
+        roleId = row.id
+      }
+
+      // 关闭对话框时的操作
+      const closeAssignDialog = ()=>{
+        RightsSelected.value = []
+      }
+      // 级联选择器属性改变的时候
+      const cacasderChange =()=>{
+        console.log(RightsSelected.value);
+      }
+      // 提交
+      const assignSubmit = async ()=>{
+        // 权限去重合并
+        let rids = new Set()
+        RightsSelected.value.forEach(item=>{
+          item.forEach(subItem=>{
+            rids.add(subItem)
+          })
+        })
+        const {data: res} = await store.state.$http.post(`roles/${roleId}/rights`, {
+          rids: Array.from(rids).join(',')
+        })
+        if(res.meta.status !== 200){
+          ElMessage({
+            type: 'warning',
+            message: res.meta.msg,
+          })
+          return
+        }
+        // 刷新页面
+        getRolesList()
+
+        assignRightsDialogVisible.value = false
+      }
+
+      //#endregion
+
+      // 删除角色的指定权限
+      const handleTagClose = (rightId, roleId, row)=>{
+        console.log(rightId, roleId, row);
+        let index = row.findIndex(item=>item.id === rightId)
+        row.splice(index, 1)
+      }
 
       return {
         rolesListData,
@@ -324,12 +436,24 @@ import rules from '../../utilityData/rules.js'
         editRolesForm,
         editRolesDialogVisible,
         editRoles,
-        deleteRoles
+        deleteRoles,
+        assignRightsDialogVisible,
+        showAssignRightsDialog,
+        RightsData,
+        RightsSelected,
+        cacasderTrigger,
+        RightsSelected,
+        closeAssignDialog,
+        cacasderChange,
+        assignSubmit,
+        handleTagClose
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-
+.el-cascader{
+  width: 300px;
+}
 </style>
