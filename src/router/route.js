@@ -14,6 +14,7 @@ import RightsList from '../components/RIGHTS/RightsList.vue'
 // goods
 import Goods from '../components/GOODS/goods.vue'
 import categories from '../components/GOODS/categories.vue'
+import params from '../components/GOODS/params.vue'
 
 const routes = [
   {path: '', redirect: '/login'},
@@ -27,7 +28,8 @@ const routes = [
       {path: 'roles', component: RolesList},
       {path: 'rights', component: RightsList },
       {path: 'goods', component: Goods},
-      {path: 'categories', component: categories}
+      {path: 'categories', component: categories},
+      {path: 'params', component: params}
     ]
   }
 ]
