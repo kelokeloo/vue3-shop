@@ -71,7 +71,8 @@
             content="分配角色"
             placement="top"
           >
-          <el-button size="mini" color="#F1C40F">
+          <el-button size="mini" color="#F1C40F"
+            @click="showChoiceRolesDialog(row)">
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-icon-test1"></use>
             </svg>
@@ -171,6 +172,38 @@
         </span>
       </template>
     </el-dialog>
+
+    <!-- 分配角色对话框 -->
+    <el-dialog
+      v-model="ChoiceRolesDialogVisible"
+      title="分配角色"
+      width="50%"
+    >
+    <div class="assignRolesDialog">
+      <h4 style="margin-bottom: 1rem;">当前角色</h4>
+      <el-input v-model="curRole" disabled style="margin-bottom: 1rem;"/>
+      <el-select v-model="RoleSelected.selected" placeholder="Select"
+      >
+        <el-option
+          v-for="item in RoleOptions.options"
+          :key="item.id"
+          :label="item.roleName"
+          :value="item.id"
+        >
+        </el-option>
+      </el-select>
+    </div>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="ChoiceRolesDialogVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="assignRoleSubmit"
+            >Confirm</el-button
+          >
+        </span>
+      </template>
+    </el-dialog>
+
+
   </div>
 </template>
 
@@ -369,9 +402,67 @@ import rules from "../../utilityData/rules.js"
       }
       //#endregion
 
-      watch([userList], (newValue)=>{
-        console.log('新值', newValue);
+      // 分配角色
+      //#region 
+      // 对话框数据
+        // 当前角色
+      let curRole = ref('') 
+      let RoleOptions = reactive({
+        options:[]
       })
+      let RoleSelected = reactive({
+        selected:null
+      })
+      let UserID = ref(0)
+
+      //获取角色列表
+      const getRolesList = async ()=>{
+        const {data: res} = await store.state.$http.get('roles')
+        // console.log('角色列表');
+        if(res.meta.status !== 200){
+          ElMessage({
+            type:'error',
+            message: '获取角色列表失败'
+          })
+          return false
+        }
+        // console.log(res.data);
+        RoleOptions.options = res.data
+      }
+      
+
+      const showChoiceRolesDialog = async (row)=>{
+        ChoiceRolesDialogVisible.value=true
+        curRole.value = row.role_name
+        UserID.value = row.id
+
+        getRolesList()
+        // 提交
+      }
+      let ChoiceRolesDialogVisible = ref(false)
+
+      const assignRoleSubmit = async ()=>{
+        const {data: res} = await store.state.$http.put(`users/${UserID.value}/role`, {
+          rid: RoleSelected.selected
+        })
+        if(res.meta.status !== 200){
+          ElMessage({
+            type:'error',
+            message: '获取角色列表失败'
+          })
+          return false
+        }
+        // 刷新
+        getUserList()
+        ChoiceRolesDialogVisible.value=false
+      }
+
+
+      //#endregion
+
+      // watch([RoleSelected], (newValue)=>{
+      //   console.log('新值', newValue);
+      // })
       return {
         userList,
         queryInfo,
@@ -390,7 +481,13 @@ import rules from "../../utilityData/rules.js"
         editUserInfoDialogVisible,
         userInfo,
         putUserInfo,
-        deleteUser
+        deleteUser,
+        ChoiceRolesDialogVisible,
+        showChoiceRolesDialog,
+        curRole,
+        RoleOptions,
+        RoleSelected,
+        assignRoleSubmit
       }
     }
   }

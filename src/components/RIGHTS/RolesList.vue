@@ -423,6 +423,8 @@ import rules from '../../utilityData/rules.js'
         row.splice(index, 1)
       }
 
+      
+
       return {
         rolesListData,
         addRolesDialogVisible,
