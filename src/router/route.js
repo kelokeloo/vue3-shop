@@ -17,6 +17,9 @@ import categories from '../components/GOODS/categories.vue'
 import params from '../components/GOODS/params.vue'
 import addGood from '../components/GOODS/addGood.vue'
 
+// orderlist
+import orderList from '../components/Orders/orderList.vue'
+
 const routes = [
   {path: '', redirect: '/login'},
   {path: '/login', component: LoginVue},
@@ -31,7 +34,8 @@ const routes = [
       {path: 'goods', component: Goods},
       {path: 'categories', component: categories},
       {path: 'params', component: params},
-      {path: 'addGood', component: addGood}
+      {path: 'addGood', component: addGood},
+      {path: 'orders', component: orderList}
     ]
   }
 ]
