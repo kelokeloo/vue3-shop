@@ -32,8 +32,8 @@ vue3 + vue-router + vuex + vite +  ES6/7 + sass + element-ui-plus
   - 数据报表
 
 ## 部分截图
-![用户列表页面](other\用户列表页面.jpg)
-![角色列表页面](other\角色列表页面.jpg)
-![分类参数页面](other\分类参数页面.jpg)
-![物流管理](other\物流管理.jpg)
-![数据报表](other\角色列表页面.jpg)
+![用户列表页面](other/用户列表页面.jpg)
+![角色列表页面](other/角色列表页面.jpg)
+![分类参数页面](other/分类参数页面.jpg)
+![物流管理](other/物流管理.jpg)
+![数据报表](other/角色列表页面.jpg)
