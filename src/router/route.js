@@ -19,6 +19,7 @@ import addGood from '../components/GOODS/addGood.vue'
 
 // orderlist
 import orderList from '../components/Orders/orderList.vue'
+import dataShow from '../components/dataStatistics/dataShow.vue'
 
 const routes = [
   {path: '', redirect: '/login'},
@@ -35,7 +36,8 @@ const routes = [
       {path: 'categories', component: categories},
       {path: 'params', component: params},
       {path: 'addGood', component: addGood},
-      {path: 'orders', component: orderList}
+      {path: 'orders', component: orderList},
+      {path: 'reports', component: dataShow}
     ]
   }
 ]
