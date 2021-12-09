@@ -3,23 +3,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import LoginVue from '../components/Login.vue'
 import Home from '../components/HOME/Home.vue'
 
-//users
-import Users from '../components/USERS/Users.vue'
-import Welcome from '../components/OTHER/Welcome.vue'
 
-// rights
-import RolesList from '../components/RIGHTS/RolesList.vue'
-import RightsList from '../components/RIGHTS/RightsList.vue'
-
-// goods
-import Goods from '../components/GOODS/goods.vue'
-import categories from '../components/GOODS/categories.vue'
-import params from '../components/GOODS/params.vue'
-import addGood from '../components/GOODS/addGood.vue'
-
-// orderlist
-import orderList from '../components/Orders/orderList.vue'
-import dataShow from '../components/dataStatistics/dataShow.vue'
 
 const routes = [
   {path: '', redirect: '/login'},
@@ -28,16 +12,16 @@ const routes = [
     path: '/home', 
     component: Home,
     children:[
-      {path: '', component: Welcome},
-      {path: 'users', component: Users},
-      {path: 'roles', component: RolesList},
-      {path: 'rights', component: RightsList },
-      {path: 'goods', component: Goods},
-      {path: 'categories', component: categories},
-      {path: 'params', component: params},
-      {path: 'addGood', component: addGood},
-      {path: 'orders', component: orderList},
-      {path: 'reports', component: dataShow}
+      {path: '', component: ()=>import('../components/OTHER/Welcome.vue')},
+      {path: 'users', component: ()=>import('../components/USERS/Users.vue')},
+      {path: 'roles', component: ()=>import('../components/RIGHTS/RolesList.vue')},
+      {path: 'rights', component: ()=>import('../components/RIGHTS/RightsList.vue')},
+      {path: 'goods', component: ()=>import('../components/GOODS/goods.vue')},
+      {path: 'categories', component: ()=>import('../components/GOODS/categories.vue')},
+      {path: 'params', component: ()=>import('../components/GOODS/params.vue')},
+      {path: 'addGood', component: ()=>import('../components/GOODS/addGood.vue')},
+      {path: 'orders', component: ()=>import('../components/Orders/orderList.vue')},
+      {path: 'reports', component: ()=>import('../components/dataStatistics/dataShow.vue')}
     ]
   }
 ]
